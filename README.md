@@ -1,2 +1,2 @@
-# python-challenge
-module 3 challenge
+# Python-Challenge
+Module 3 Challenge
