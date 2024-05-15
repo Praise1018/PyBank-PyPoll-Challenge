@@ -7,12 +7,9 @@ with open(csvpath) as csvfile:
 
     csvreader = csv.reader(csvfile, delimiter=',')
 
-    print(csvreader)
+    next(csvreader)
 
-    csvheader = next(csvreader)
-    
-    print(f"CSV Header: {csvheader}")
+print("Financial Analysis")
 
-    for row in csvreader:
+print("----------------------------")
 
-        print(row)
