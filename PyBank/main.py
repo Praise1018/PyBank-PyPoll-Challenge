@@ -4,11 +4,9 @@ import csv
 csvpath = os.path.join("PyBank/Resources/budget_data.csv")
 
 totalmonths = 0
-totalmonths += 0
 nettotal = 0
-averagechange = 0
-greatestincrease = 0
-greatestdecrease = 0
+changes = []
+dates = []
 
 with open(csvpath) as csvfile:
 
@@ -20,25 +18,39 @@ with open(csvpath) as csvfile:
        
        totalmonths += 1
        nettotal += int(row[1])
+       changes.append(int(row[1]))
+       dates.append(row[0])
 
-       greatestincrease = max(row[1])
-       greatestdecrease = min(row[1])
-       
-averagechange = round(nettotal/totalmonths)
+    changevalues = [changes[i+1] - changes[i] for i in range(len(changes)-1)]
+    
+    if changevalues:
+        averagechange = round(sum(changevalues) / len(changevalues))
+        greatestincrease = max(changevalues)
+        greatestincreasedate = dates[changevalues.index(greatestincrease) + 1]
+        greatestdecrease = min(changevalues)
+        greatestdecreasedate = dates[changevalues.index(greatestdecrease) + 1]
+    else:
+        averagechange = 0
+        greatestincrease = 0
+        greatestincrease_date = ""
+        greatestdecrease = 0
+        greatestdecrease_date = ""
 
+print("Financial Analysis")
 print(f"Total Months: {totalmonths}")
 print(f"Total: ${nettotal}")
 print(f"Average Change: ${averagechange}")
-print(f"Greatest Increase: {greatestincrease}")
-print(f"Greatest Decrease: {greatestdecrease}")
+print(f"Greatest Increase: {greatestincreasedate}, {greatestincrease}")
+print(f"Greatest Decrease: {greatestdecreasedate}, {greatestdecrease}")
 
 output_file = "analysis.txt"
 
 with open(output_file, "w") as file:
+    file.write("Financial Analysis")
     file.write(f"Total Months: {totalmonths}")
     file.write(f"Total: ${nettotal}")
     file.write(f"Average Change: ${averagechange}")
-    file.write(f"Greatest Increase: {greatestincrease}")
-    file.write(f"Greatest Decrease: {greatestdecrease}")
+    file.write(f"Greatest Increase: {greatestincreasedate}, {greatestincrease}")
+    file.write(f"Greatest Decrease: {greatestdecreasedate}, {greatestdecrease}")
 
 
